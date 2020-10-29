@@ -150,14 +150,8 @@ function makeAnswerChoiceHTMLstring(answerNumber) {
   const currentQuestion = store.questions[(store.questionNumber-1)];
 
   let answerChoiceString = `
-    <input type="radio" id="option${answerNumber}" value="${currentQuestion.answerVals[answerNumber]}" name="options" required>
+    <input class="js-answer-choice" type="radio" id="option${answerNumber}" value="${currentQuestion.answerVals[answerNumber]}" name="options" required>
       <label for="${currentQuestion.answerVals[answerNumber]}">${currentQuestion.answers[answerNumber]}</label><br>`
-    
-  /*
-  let answerChoiceString = `
-    <input type="radio" id="${currentQuestion.answerVals[answerNumber]}" name='${currentQuestion.questionShorthand}' value='${currentQuestion.answerVals[answerNumber]}' required>
-      <label for="${currentQuestion.answerVals[answerNumber]}">${currentQuestion.answers[answerNumber]}</label><br>`
-  */
 
   return answerChoiceString;
 
@@ -273,8 +267,7 @@ function renderSummaryHTMLaddition() {
 function renderQandAstringFinish() {
   console.log('Ran renderQandAstringFinish function.')
 
-  // A few different ways to end this string, but 
-  // always includes ending the answer-choices <div> (does it???)
+  // Initialize empty string
   let QandAstringFinish = '';
 
   // ...if the active question hasn't yet been answered, need a "Submit answer" button.
@@ -403,7 +396,7 @@ function handleAnswerSubmission() {
     console.log('You submitted an answer.');
 
     console.log('store.questionAnswered is currently set to '+store.questionAnswered);
-
+    
     // Create shorthand for current Question (object in store) 
     const currentQuestion = store.questions[(store.questionNumber-1)];
     // and Answer (from that Question object)
@@ -427,6 +420,9 @@ function handleAnswerSubmission() {
 
     // Re-render the DOM.
     renderQuizPage();
+
+    // Want to disable radio buttons:
+    $('.js-answer-choice').attr('disabled', 'disabled');
 
   });
 }
