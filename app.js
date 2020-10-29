@@ -138,7 +138,7 @@ function QandAstringStart() {
   return `
     <section class="major-section">
       <h3>${currentQuestion.question}</h3>  
-      <form>
+      <form class="js-question-form">
         <div class="answer-choices-container">`;
 }
   
@@ -166,7 +166,7 @@ function makeAnswerChoiceHTMLstring(answerNumber) {
 // Create a string to conclude QandA HTML, including a "Submit Answer" button.
 function provideSubmitAnswerButtonString() {
   return `
-    <button type="submit">Submit selection.</button>
+    <button type="submit">Submit answer.</button>
     </div>
     </form>
     </section>`;
@@ -398,7 +398,7 @@ function handleStartQuiz() {
 function handleAnswerSubmission() {
   console.log('Ran handleAnswerSubmission function.')
   
-  $('.js-core-HTML-target').on('click', '.js-submit-answer-button', function(event) {
+  $('.js-core-HTML-target').on('submit', '.js-question-form', function(event) {
     event.preventDefault();
     console.log('You submitted an answer.');
 
@@ -410,7 +410,7 @@ function handleAnswerSubmission() {
     const correctAnswer = currentQuestion.correctAnswer;
 
     // identify the selected answer choice    
-    const answerChoice = $(`input[type='radio'][name='${currentQuestion.questionShorthand}']:checked`).val();
+    const answerChoice = $(`input[type='radio'][name='options']:checked`).val();
     console.log(`You selected "${answerChoice}".`);
   
     // Determine if the answer was correct or not:
