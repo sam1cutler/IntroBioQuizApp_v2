@@ -1,0 +1,71 @@
+
+/*--- main body styles ---*/
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(211, 240, 230);
+  align-items: center;
+}
+
+h1 {
+  margin: 40px;
+  font-size: 50px;
+  text-align: center;
+}
+
+.major-section {
+  border: 3px solid rgb(58, 57, 161);
+  margin: 10px;
+  padding: 5px 15px 10px 15px;
+  background-color: rgb(177, 204, 195);
+  
+}
+
+form {
+  margin: 10px 10px 5px 10px;
+}
+
+.answer-choices-container {
+  margin: 10px;
+}
+
+header h3 {
+  text-align: center;
+}
+
+button {
+  margin: 10px;
+}
+
+
+/*--- override base styles for screens >700px --*/
+
+@media (min-width: 700px) {
+  body {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 62px;
+  }
+
+  .major-section {
+    border: 6px solid rgb(58, 57, 161);;
+    margin: 40px;
+    padding: 10px 30px 20px 30px;
+  }
+  
+  form {
+    margin: 20px 20px 5px 20px;
+  }
+  
+  .answer-choices-container {
+    margin: 20px;
+  }
+}
+
