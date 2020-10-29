@@ -103,7 +103,7 @@ let store = {
 
 
 /********** TEMPLATE GENERATION FUNCTIONS **********/
-// These functions return HTML templates
+// These functions return strings that, together, will form complete HTML templates.
 
 // Create the string that will "summarize" quiz progress at the top.
 function summaryHTMLaddition() {
@@ -183,30 +183,6 @@ function provideNextQuestionButtonString() {
     </section>`; 
 }
 
-
-// Troubleshooting my radio button form requirement...
-function renderQuizQuestionHTMLtester() {
-  // The following form WORKS (is required!) in my quiz. So, seek to emulate it!
-  return `
-  <section class="major-section">
-    <h3>Here is the question.</h3>
-    <form>
-      <div class="answer-choices-container">
-        <input type="radio" id="pizza" value="pizza" name="favfood" required>
-          <label for="pizza">Pizza</label><br>
-        <input type="radio" id="hotdog" value="hotdog" name="favfood" required>
-          <label for="hotdog">Hot dogs</label><br>
-        <input type="radio" id="hamburger" value="hamburger" name="favfood" required>
-          <label for="hamburger">Hamburger</label><br>
-
-        <button type="submit">Submit selection.</button>
-      </div>
-    </form>
-  </section>
-  `
-
-}
-
 // Create the string containing the "end of quiz" message.
 function quizCompleteHTML() {
   console.log('The quizCompleteHTML function ran.');
@@ -217,31 +193,6 @@ function quizCompleteHTML() {
       <p>You may take this quiz as many times as you like. To restart, please click the button below.</p>
       <button class='js-restart-button'>Restart quiz.</button>
     </section>`;
-}
-
-// Want to provide right/wrong feedback after answers are submitted.
-function feedbackHTMLaddition() {
-  console.log('Ran feedbackHTMLaddition function');
-
-  // No feedback to provide if answer has not just been answered:
-  if (store.questionAnswered === 'empty' || store.quizCompleted === true) {
-    console.log('No answered question to provide feedback about.');
-    return ``;
-
-  // Feedback for a correct answer:
-  } else if (store.questionAnswered === 'correct') {
-    console.log('A question has been answered correctly.');
-    return `<section class="major-section"><p class="need-space">That is correct!</p></section>`;
-  
-  // Feedback for an incorrect answer, including the correct answer:
-  } else if (store.questionAnswered === 'incorrect') {
-    console.log('A question has been answered incorrectly.');
-    
-    // Identify the current question object in the store
-    const currentQuestion = store.questions[(store.questionNumber-1)];
-    return `<section class="major-section"><p class="need-space">That is incorrect. The correct answer is "${currentQuestion.correctAnswerVerbose}"</p></section>`;
-  };
-  
 }
 
 
@@ -331,13 +282,34 @@ function renderCoreContentHTMLaddition() {
   } else {
     console.log('The quiz has already started');
     return renderQuizQuestionHTML();
-    //return quizQuestionHTMLtester();
   };
 
   return coreContentString;
-
 }
 
+// Want to provide right/wrong feedback after answers are submitted.
+function renderFeedbackHTMLaddition() {
+  console.log('Ran feedbackHTMLaddition function');
+
+  // No feedback to provide if answer has not just been answered:
+  if (store.questionAnswered === 'empty' || store.quizCompleted === true) {
+    console.log('No answered question to provide feedback about.');
+    return ``;
+
+  // Feedback for a correct answer:
+  } else if (store.questionAnswered === 'correct') {
+    console.log('A question has been answered correctly.');
+    return `<section class="major-section"><p class="need-space">That is correct!</p></section>`;
+  
+  // Feedback for an incorrect answer, including the correct answer:
+  } else if (store.questionAnswered === 'incorrect') {
+    console.log('A question has been answered incorrectly.');
+    
+    // Identify the current question object in the store
+    const currentQuestion = store.questions[(store.questionNumber-1)];
+    return `<section class="major-section"><p class="need-space">That is incorrect. The correct answer is "${currentQuestion.correctAnswerVerbose}"</p></section>`;
+  };
+}
 
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
 function renderQuizPage() {
@@ -353,11 +325,10 @@ function renderQuizPage() {
   HTMLstring += renderCoreContentHTMLaddition();
 
   // Generate the string/HTML content for the feedback + button
-  HTMLstring += feedbackHTMLaddition();
+  HTMLstring += renderFeedbackHTMLaddition();
   
   // Insert this string into the <Main> HTML element.
   $('.js-core-HTML-target').html(HTMLstring);
-
 }
 
 /********** EVENT HANDLER FUNCTIONS **********/
@@ -423,7 +394,6 @@ function handleAnswerSubmission() {
 
     // Want to disable radio buttons:
     $('.js-answer-choice').attr('disabled', 'disabled');
-
   });
 }
 
@@ -443,8 +413,7 @@ function handleNextQuestion() {
 
     // Re-render the DOM. 
     renderQuizPage();
-
-  })
+  });
 }
 
 // ...clicks of the "See results" button
@@ -457,7 +426,7 @@ function handleSeeResults() {
 
     // Re-render the DOM.
     renderQuizPage();
-  })
+  });
 }
 
 // ...clicks of the "Restart the quiz" button
@@ -476,8 +445,7 @@ function handleRestartQuiz() {
 
     // Re-render the DOM.
     renderQuizPage();
-    
-  })
+  });
 }
 
 
